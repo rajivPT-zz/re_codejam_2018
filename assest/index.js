@@ -152,6 +152,6 @@ $(document).ready(function() {
   fillBalance();
   setTimeout(function(){
     lastBlock = web3.eth.blockNumber;
-    // getAccountTransactions(contractNum, 0 , lastBlock);
+    getAccountTransactions(contractNum, 0 , lastBlock);
   },1000);
 });
