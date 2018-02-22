@@ -1,6 +1,7 @@
 .container{
     width: 920px;
     color: #ffffff;
+    min-height: 750px;
 }
 .loading {
     opacity: 0;
@@ -41,6 +42,10 @@
 .lhs {
     height: 100%;
     padding-top: 100px;
+}
+li {
+    list-style: none;
+    margin-left: -20px;
 }
 .Rectangle-3-Copy {
     /* width: 890px; */
@@ -98,7 +103,7 @@
     margin-left: -14%;
   }
   .inclusive {
-      bottom: 5%;
+      bottom: 15%;
       position: absolute;
       font-size: 12px;
       opacity: 0.6;
@@ -119,11 +124,29 @@
     margin-top: -300px;
     width: 80%;
     margin-left: 40px;
-    font-size: 11px;
+    font-size: 9px;
+    text-align: justify;
+  }
+  .contract p {
+      margin: 0;
+  }
+  .contract .stackholders {
+      margin-top: 15px;
   }
   #brkrg-prcnt {
       background-color: #0F9AC0;
       color: #ffffff;
+  }
+  .create-contract {
+    height: 30px;
+    width: 100px;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 15px;
+    cursor: pointer;
   }
 
 /* second screen */
