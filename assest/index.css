@@ -283,6 +283,11 @@ li {
     background-position: 0px 12px;
 }
 
+.bal-info {
+    height: 96px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 .no-border {
     border: none !important;
 }
