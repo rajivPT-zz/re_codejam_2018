@@ -7,6 +7,7 @@ var timer;
 var autoTransfer;
 var verifiedCount = 0;
 var lastBlock = 0;
+var brokerBal = null;
 
 function payToBuilder() {
   clearInterval(timer);
@@ -15,7 +16,6 @@ function payToBuilder() {
   web3.eth.sendTransaction({from: web3.eth.coinbase, to: contractInstance.getBuilderAccount.call(), value: web3.toWei(contractInstance.payToBuilder.call(), "ether")}) 
   contractInstance.resetTotalConfirmation({from:web3.eth.coinbase});
   $(".action").removeClass('done');
-  var brokerBal = null;
   verifiedCount = 0;
   timer = setInterval(function(){
     if(brokerBal && brokerBal !== web3.fromWei(web3.eth.getBalance(contractInstance.getBrokerAccount.call()), 'ether').c[0]){
@@ -32,6 +32,7 @@ function payToBuilder() {
           </div>
       </div>`;
       $('.bal-info').prepend(balItem);
+      clearInterval(timer);
     }
     // $(".bal-info [data-type='builder']").text(web3.fromWei(web3.eth.getBalance(contractInstance.getBuilderAccount.call()), 'ether').c[0]);
     // if(brokerBal && brokerBal !== web3.fromWei(web3.eth.getBalance(contractInstance.getBrokerAccount.call()), 'ether').c[0]){
@@ -104,6 +105,7 @@ function checkTransaction(){
 }
 
 function fillBalance(){
+  brokerBal = web3.fromWei(web3.eth.getBalance(contractInstance.getBrokerAccount.call()), 'ether').c[0];
   var balItem = `<div class="row">
       <div class="col col-md-4" data-type="bank">
           ${web3.fromWei(web3.eth.getBalance(web3.eth.coinbase), 'ether').c[0]}
@@ -112,7 +114,7 @@ function fillBalance(){
           ${web3.fromWei(web3.eth.getBalance(contractInstance.getBuilderAccount.call()), 'ether').c[0]}
       </div>
       <div class="col col-md-4" data-type="broker">
-          ${web3.fromWei(web3.eth.getBalance(contractInstance.getBrokerAccount.call()), 'ether').c[0]}
+          ${brokerBal}
       </div>
   </div>`;
   $('.bal-info').prepend(balItem);
@@ -150,6 +152,6 @@ $(document).ready(function() {
   fillBalance();
   setTimeout(function(){
     lastBlock = web3.eth.blockNumber;
-    getAccountTransactions(contractNum, 0 , lastBlock);
+    // getAccountTransactions(contractNum, 0 , lastBlock);
   },1000);
 });

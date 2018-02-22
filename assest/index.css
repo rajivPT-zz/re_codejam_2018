@@ -296,7 +296,7 @@ li {
 }
 
 .ellipsis {
-    width: 90px;
+    width: 140px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -304,7 +304,7 @@ li {
 }
 
 h5.ellipsis {
-    width: 200px;
+    width: 330px;
 }
 
 .transaction-record {
