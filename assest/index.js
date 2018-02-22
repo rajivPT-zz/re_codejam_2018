@@ -6,6 +6,7 @@ var contractInstance = VotingContract.at('0x61f4c73abdc402b8dc2fd7667777d00f863b
 var timer;
 var autoTransfer;
 var verifiedCount = 0;
+var lastBlock = 0;
 
 function payToBuilder() {
   clearInterval(timer);
@@ -39,6 +40,48 @@ function payToBuilder() {
 
 }
 
+function getAccountTransactions(accAddress, startBlockNumber, endBlockNumber) {
+  var blockHtml = '';
+  for (var i = startBlockNumber; i <= endBlockNumber; i++) {
+    var block = web3.eth.getBlock(i, true);
+
+    if (block != null && block.transactions != null) {
+      block.transactions.forEach( function(e) {
+        if (accAddress == "*" || accAddress == e.from || accAddress == e.to) {
+          blockHtml += `<div class="row">
+              <div class="col col-md-2 user">
+
+              </div>
+              <div class="col col-md-8 body">
+                  <h5 class="ellipsis">Tx : ${e.hash}</h5>
+                  <p>
+                      <span class="ellipsis">
+                          ${e.from}
+                      </span>
+                      <span class="arrow">
+                          to
+                      </span>
+                      <span class="ellipsis">
+                          ${e.to}
+                      </span>
+                  </p>
+              </div>
+              <div class="col col-md-2 user">
+                  
+              </div>
+          </div>`;
+        }
+      })
+    }
+  }
+  $('.transaction-record').prepend(blockHtml);
+  setInterval(function(){
+    console.log('web3.eth.blockNumber ', web3.eth.blockNumber, lastBlock);
+    if(web3.eth.blockNumber > lastBlock){
+      getAccountTransactions('0x61f4c73abdc402b8dc2fd7667777d00f863b8358', lastBlock, web3.eth.blockNumber);
+    }
+  },50000)
+}
 function checkTransaction(){
   if(verifiedCount === 1){
     payToBuilder();
@@ -78,4 +121,8 @@ $(document).ready(function() {
     btnActionHandler(this);
   })
   fillBalance();
+  setTimeout(function(){
+    lastBlock = web3.eth.blockNumber;
+    getAccountTransactions('0x61f4c73abdc402b8dc2fd7667777d00f863b8358', 11500 , lastBlock);
+  },1000);
 });
