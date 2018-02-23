@@ -354,7 +354,7 @@ h5.ellipsis {
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
-    animation-iteration-count: 2;
+    animation-iteration-count: 1;
 }
 
 @keyframes highlight {

@@ -58,13 +58,14 @@ function payToBuilder() {
 
 function getAccountTransactions(accAddress, startBlockNumber, endBlockNumber) {
   var blockHtml = '';
+  lastBlock = endBlockNumber;
   for (var i = startBlockNumber; i <= endBlockNumber; i++) {
     var block = web3.eth.getBlock(i, true);
 
     if (block != null && block.transactions != null) {
       block.transactions.forEach( function(e) {
-        if (accAddress == "*" || accAddress == e.from || accAddress == e.to) {
-          blockHtml += `<div class="row" data-id=${e.blockNumber}>
+        if ((accAddress == "*" || accAddress == e.from || accAddress == e.to) && $(".highlight [data-id="+ e.blockNumber+"]").length === 0) {
+          blockHtml += `<div class="row highlight" data-id=${e.blockNumber}>
               <div class="col col-md-11 body">
                   <h5 class="ellipsis">Tx : ${e.hash}</h5>
                   <p>
@@ -85,20 +86,21 @@ function getAccountTransactions(accAddress, startBlockNumber, endBlockNumber) {
     }
   }
   $('.transaction-record').prepend(blockHtml);
-  setInterval(function(){
+  setTimeout(function(){
     console.log('web3.eth.blockNumber ', web3.eth.blockNumber, lastBlock);
-    if(web3.eth.blockNumber > lastBlock){
+    // if(web3.eth.blockNumber > lastBlock){
       getAccountTransactions(contractNum, lastBlock, web3.eth.blockNumber);
-    }
-  },50000)
+    // }
+  },5000)
 }
 function checkTransaction(){
   if(verifiedCount === 1){
     // payToBuilder();
-    // var pendingTransaction = web3.eth.getBlock('pending').transactions;
     // autoTransfer = setInterval(function(){
-    //   if(pendingTransaction.length === 0){
+    //   console.log(contractInstance.getTotalConfirmation.call()>=contractInstance.getTotalRequiredConfirmation.call());
+    //   if(contractInstance.getTotalConfirmation.call()>=contractInstance.getTotalRequiredConfirmation.call()){
     //     payToBuilder();
+    //     clearInterval(autoTransfer);
     //   }
     // }, 200);
   }
@@ -152,6 +154,7 @@ $(document).ready(function() {
   fillBalance();
   setTimeout(function(){
     lastBlock = web3.eth.blockNumber;
-    getAccountTransactions(contractNum, 0 , lastBlock);
+    console.log(web3.eth.blockNumber > 1000 ? web3.eth.blockNumber-100 : web3.eth.blockNumber);
+    getAccountTransactions(contractNum, (web3.eth.blockNumber > 1000 ? web3.eth.blockNumber-100 : web3.eth.blockNumber) , lastBlock);
   },1000);
 });
