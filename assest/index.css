@@ -298,6 +298,7 @@ li {
     backface-visibility: hidden;
     perspective: 1000px;
     animation-iteration-count: infinite;
+    animation-delay: 3s;
 }
 
 .ellipsis {
@@ -371,3 +372,30 @@ h5.ellipsis {
         background: none;
     }
   }
+
+  .check{
+        display:inline-block;
+    }
+    .check:after{
+        opacity: 0.2;
+        animation: fadeInFromNone 10s;
+        animation-delay: 2s;
+        content: '';
+        display: block;
+        color: #41d0b0;
+        width: 10px;
+        height: 22px;
+        border: solid #41d0b0;
+        border-width: 0 3px 6px 0;
+        transform: rotate(45deg);
+        margin:-20px 10px 0;
+      }
+
+    @keyframes fadeInFromNone {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
